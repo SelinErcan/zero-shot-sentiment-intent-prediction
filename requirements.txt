@@ -1,0 +1,5 @@
+torch==1.13.1 
+torchdata==0.5.1
+transformers==4.27.2 
+datasets==2.11.0  
+pyyaml==6.0

@@ -1,0 +1,26 @@
+# Model configuration
+sentiment_model:
+  name: finiteautomata/bertweet-base-sentiment-analysis
+  save_model_path: resources/
+  results:
+    path: results/
+    file_name : sentiment_results.json
+
+intent_model:
+  name: facebook/bart-large-mnli
+  save_model_path: resources/
+  results:
+    path: results/
+    file_name: intent_results.json
+  intents:
+  - greeting
+  - order
+  - thanking
+  - preference
+  - information
+  - question
+
+# Chatbot conversation data
+conversation_data: data/simulated_conversation_1.json
+
+
