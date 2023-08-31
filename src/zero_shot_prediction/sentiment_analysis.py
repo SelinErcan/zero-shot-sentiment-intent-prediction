@@ -13,11 +13,11 @@ class SentimentAnalysis:
         """
         self.model_name = model_config["name"]
         self.model_path = model_config["save_model_path"]
-        self.results = model_config["results"]
+        self.results_path = model_config["results_path"]
+        self.data_file_name = data_file.split("/")[-1]
         self.data = json.load(open(os.path.join(PATH, data_file)))
         self.result_dict = {}
 
-        helper.create_dir_if_not_exists(self.model_path)
         self._save_model_if_not_exists()
         
     def _save_model_if_not_exists(self):
@@ -28,8 +28,9 @@ class SentimentAnalysis:
         file_name = os.path.join(self.model_path, self.model_name)
 
         if not os.path.exists(file_name):
+            helper.create_dir_if_not_exists(os.path.join(PATH, self.model_path))
             model = AutoModelForSequenceClassification.from_pretrained(self.model_name)
-            model.save_pretrained(file_name) 
+            model.save_pretrained(os.path.join(PATH, file_name))
 
     def _load_model(self):
         """
@@ -42,9 +43,9 @@ class SentimentAnalysis:
         
         """
 
-        helper.create_dir_if_not_exists(self.results["path"])
+        helper.create_dir_if_not_exists(self.results_path)
 
-        with open(os.path.join(self.results["path"], self.results["file_name"]), "w") as file:
+        with open(os.path.join(self.results_path, self.data_file_name), "w") as file:
             json.dump(self.result_dict, file)
 
     def analyze(self):

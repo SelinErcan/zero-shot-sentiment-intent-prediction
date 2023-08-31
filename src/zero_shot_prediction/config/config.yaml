@@ -2,16 +2,12 @@
 sentiment_model:
   name: finiteautomata/bertweet-base-sentiment-analysis
   save_model_path: resources/
-  results:
-    path: results/
-    file_name : sentiment_results.json
+  results_path: results/sentiment_analysis/
 
 intent_model:
   name: facebook/bart-large-mnli
   save_model_path: resources/
-  results:
-    path: results/
-    file_name: intent_results.json
+  results_path: results/intent_prediction/
   intents:
   - greeting
   - order
@@ -21,6 +17,6 @@ intent_model:
   - question
 
 # Chatbot conversation data
-conversation_data: data/simulated_conversation_1.json
+example_data: data/simulated_conversation_1.json
 
 

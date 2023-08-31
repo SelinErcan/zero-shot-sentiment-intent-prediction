@@ -21,14 +21,14 @@ env\Scripts\activate
 pip install -r requirements.txt
 ```
 
-# make python package
+## Python package
 ```bash
 python setup.py sdist bdist_wheel
 ```
 
-# load package from local
+# Load package from local
 ```bash
-pip install -U zero-shot-prediction --find-links {local_package_estination}
+pip install -U zero-shot-prediction --find-links {local_package_destination}
 ```
 
 ## Files
