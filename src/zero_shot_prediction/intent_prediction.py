@@ -2,7 +2,9 @@ import os
 from transformers import AutoModelForSequenceClassification
 from transformers import pipeline
 import json
-import helper
+from zero_shot_prediction import helper
+
+PATH = os.path.join(os.path.dirname(__file__))
 
 class IntentPrediction:
     def __init__(self, model_config, data_file):
@@ -13,7 +15,7 @@ class IntentPrediction:
         self.model_path = model_config["save_model_path"]
         self.results = model_config["results"]
         self.labels = model_config["intents"]
-        self.data = json.load(open(data_file))
+        self.data = json.load(open(os.path.join(PATH, data_file)))
         self.result_dict = {}
 
         helper.create_dir_if_not_exists(self.model_path)
