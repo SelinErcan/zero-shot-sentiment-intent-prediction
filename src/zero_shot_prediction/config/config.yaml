@@ -1,8 +1,12 @@
 # Model configuration
 sentiment_model:
-  name: finiteautomata/bertweet-base-sentiment-analysis
+  name: facebook/bart-large-mnli
   save_model_path: resources/
   results_path: results/sentiment_analysis/
+  intents:
+  - positive
+  - negative
+  - neutral
 
 intent_model:
   name: facebook/bart-large-mnli

@@ -2,34 +2,9 @@
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Build Enviroment](#enviroment)
-- [Run](#run)
 - [Files](#Files)
-- [License](#license)
-
-## Overview 
-
-
-## Build Enviroment
-
-```bash
-pip3 install --upgrade pip
-pip3 install -U pip virtualenv
-python -m venv env
-env\Scripts\activate
-pip install -r requirements.txt
-```
-
-## Python package
-```bash
-python setup.py sdist bdist_wheel
-```
-
-# Load package from local
-```bash
-pip install -U zero-shot-prediction --find-links {local_package_destination}
-```
+- [Build Package](#buildpackage)
+- [Use Package](#usepackage)
 
 ## Files
 
@@ -44,6 +19,56 @@ pip install -U zero-shot-prediction --find-links {local_package_destination}
 * .gitignore
 * config.yaml
 * requirements.txt
+
+## Build Package
+
+### Build Enviroment
+```bash
+pip3 install --upgrade pip
+pip3 install -U pip virtualenv
+python -m venv env
+env\Scripts\activate
+pip install -r requirements.txt
+```
+
+### Preprare python package
+```bash
+python setup.py sdist bdist_wheel
+```
+
+## Use python package in local
+
+### Load package from local
+```bash
+pip install -U zero-shot-prediction --find-links {local_package_destination}
+```
+
+### How to use package
+```python 
+from zero_shot_prediction import analyze
+analyze.run_analysis(data_file = "file_path", model_name = "sentiment_model")
+```
+#### Package Parameters
+
+| Parameter      | Description                                 | Default Value           | Options                              |
+| -------------- | ------------------------------------------- | ----------------------- | ------------------------------------ |
+| `data_file`    | Your API key for authentication.            | an example data to run  | default file, external file          |
+| `model_name`   | Timeout in seconds for API requests.        | `sentiment_model`       | `sentiment_model`, `sentiment_model` |
+
+
+**External file data format:**
+```json
+[
+    {
+        "id": 1,
+        "role": "...",
+        "message": "..."
+    },
+ "..."
+ ]
+```           
+
+
 
 
 

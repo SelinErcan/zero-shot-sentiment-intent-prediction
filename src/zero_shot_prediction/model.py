@@ -1,4 +1,5 @@
 import os
+import sys
 from transformers import AutoModelForSequenceClassification
 from transformers import pipeline
 import json
@@ -6,20 +7,27 @@ from zero_shot_prediction import helper
 
 PATH = os.path.join(os.path.dirname(__file__))
 
-class SentimentAnalysis:
-    def __init__(self, model_config, data_file):
+class Zero_Shot_Model:
+    def __init__(self, model_config, data_file, logger):
         """
-        Zero shot sentiment analysis using pretrained Huggingface model
+        Zero shot intent prediction using pretrained Huggingface model
         """
         self.model_name = model_config["name"]
         self.model_path = model_config["save_model_path"]
         self.results_path = model_config["results_path"]
+        self.labels = model_config["intents"]
         self.data_file_name = data_file.split("/")[-1]
-        self.data = json.load(open(os.path.join(PATH, data_file)))
+        try: 
+            self.data = json.load(open(os.path.join(PATH, data_file)))
+        except:
+            try:
+                self.data = json.load(open(data_file))
+            except:
+                logger.error("Data file is not avaliable!")
+                raise Exception("Data file is not avaliable!")
         self.result_dict = {}
-
         self._save_model_if_not_exists()
-        
+
     def _save_model_if_not_exists(self):
         """
         Save the pretrained model if it does not exist in the save path already
@@ -36,12 +44,10 @@ class SentimentAnalysis:
         """
         Loads a trained model from disk into memory and returns an instance of it
         """
-        self.model = pipeline(model=self.model_name)
+        self.model = pipeline("zero-shot-classification", model=self.model_name)
+
 
     def _save_results(self):
-        """
-        
-        """
 
         helper.create_dir_if_not_exists(self.results_path)
 
@@ -49,18 +55,15 @@ class SentimentAnalysis:
             json.dump(self.result_dict, file)
 
     def analyze(self):
-        """
-        
-        """
 
         self._load_model()
 
         for step in self.data:
             if step["role"]=="customer":
-                result = self.model(step["message"])[0]
+                result = self.model(step["message"], self.labels)
                 self.result_dict[step["id"]] = {"message" : step["message"], 
-                                                "sentiment_label": result["label"], 
-                                                "sentiment_score": result["score"]}
+                                                "intent_labels": result["labels"], 
+                                                "intent_scores": result["scores"]}
 
         self._save_results()
-
+    

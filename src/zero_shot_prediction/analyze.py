@@ -1,33 +1,23 @@
 from zero_shot_prediction import helper
-from zero_shot_prediction import sentiment_analysis
-from zero_shot_prediction import intent_prediction
+from zero_shot_prediction import model
 import os
 
 config_path = os.path.join(os.path.dirname(__file__), 'config', 'config.yaml')
 CONFIG = helper.load_yaml_file(config_path)
 LOGGER = helper.setup_logger()
 
-def run_sentiment_analysis(data_file=CONFIG['example_data']):
+def run_analysis(data_file=CONFIG['example_data'], model_name = "sentiment_model"):
     """
     Uses sentiment analysis object
     """
+        
+    LOGGER.info("Analyzing with {}...".format(model_name))
+    model_obj = model.Zero_Shot_Model(model_config = CONFIG[model_name], 
+                                      data_file = data_file,
+                                      logger=LOGGER)
+    model_obj.analyze()
+    LOGGER.info("{} prediction is finished.".format(model_name))
 
-    LOGGER.info("Analyzing Sentiments...")
-    sentiment_obj = sentiment_analysis.SentimentAnalysis(model_config = CONFIG['sentiment_model'], 
-                                                          data_file = data_file)
-    sentiment_obj.analyze()
-    LOGGER.info("Sentiment prediction is finished.")
-
-def run_intent_prediction(data_file=CONFIG['example_data']):
-    """
-    Uses intent prediction object
-    """
-
-    LOGGER.info("Analyzing Intents...")
-    intent_obj = intent_prediction.IntentPrediction(model_config = CONFIG['intent_model'],
-                                                     data_file = data_file)
-    intent_obj.analyze()
-    LOGGER.info("Intent prediction is finished.")
 
 
 
