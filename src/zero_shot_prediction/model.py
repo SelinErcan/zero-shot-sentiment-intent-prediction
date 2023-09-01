@@ -17,17 +17,12 @@ class Zero_Shot_Model:
         self.model_path = CONFIG.get(model_name, 'save_model_path')
         self.results_path = CONFIG.get(model_name, 'results_path')
         self.labels = CONFIG.get(model_name, 'intents')
+        self.data_file = data_file
         self.data_file_name = data_file.split("/")[-1]
-        try: 
-            self.data = json.load(open(os.path.join(PATH, CONFIG.get('example_data'))))
-        except:
-            try:
-                self.data = json.load(open(data_file))
-            except:
-                logger.error("Data file is not avaliable!")
-                raise Exception("Data file is not avaliable!")
+        self.logger = logger
         self.result_dict = {}
         self._save_model_if_not_exists()
+        self._load_model()
 
     def _save_model_if_not_exists(self):
         """
@@ -47,8 +42,22 @@ class Zero_Shot_Model:
         """
         self.model = pipeline("zero-shot-classification", model=self.model_name)
 
+    def _load_data(self):
+
+        if self.data_file == "example_data":
+            data = json.load(open(os.path.join(PATH, CONFIG.get(self.data_file, 'default'))))
+        else:
+            try:
+                data = json.load(open(self.data_file))
+            except:
+                self.logger.error("Data file is not avaliable!")
+                raise Exception("Data file is not avaliable!")
+        return data
 
     def _save_results(self):
+        """
+        Save results as json file
+        """
 
         helper.create_dir_if_not_exists(self.results_path)
 
@@ -56,10 +65,12 @@ class Zero_Shot_Model:
             json.dump(self.result_dict, file)
 
     def analyze(self):
+        """
+        Run model on each customer's message and save in results
+        """
+        data = self._load_data()
 
-        self._load_model()
-
-        for step in self.data:
+        for step in data:
             if step["role"]=="customer":
                 result = self.model(step["message"], self.labels)
                 self.result_dict[step["id"]] = {"message" : step["message"], 

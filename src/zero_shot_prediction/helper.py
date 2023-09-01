@@ -29,6 +29,9 @@ def create_dir_if_not_exists(dir_name):
         os.makedirs(dir_name)
 
 def setup_logger():
+    """
+    Create logger for both printing and saving as log file
+    """
     logging.basicConfig(filename="std.log",  format='%(asctime)s %(message)s', filemode='w') 
     logger=logging.getLogger() 
     logger.setLevel(logging.DEBUG) 
