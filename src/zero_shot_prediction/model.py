@@ -6,19 +6,20 @@ import json
 from zero_shot_prediction import helper
 
 PATH = os.path.join(os.path.dirname(__file__))
+CONFIG = helper.load_ini_file(os.path.join(PATH, 'config', 'config.ini'))
 
 class Zero_Shot_Model:
-    def __init__(self, model_config, data_file, logger):
+    def __init__(self, model_name, data_file, logger):
         """
         Zero shot intent prediction using pretrained Huggingface model
         """
-        self.model_name = model_config["name"]
-        self.model_path = model_config["save_model_path"]
-        self.results_path = model_config["results_path"]
-        self.labels = model_config["intents"]
+        self.model_name = CONFIG.get(model_name, 'name')
+        self.model_path = CONFIG.get(model_name, 'save_model_path')
+        self.results_path = CONFIG.get(model_name, 'results_path')
+        self.labels = CONFIG.get(model_name, 'intents')
         self.data_file_name = data_file.split("/")[-1]
         try: 
-            self.data = json.load(open(os.path.join(PATH, data_file)))
+            self.data = json.load(open(os.path.join(PATH, CONFIG.get('example_data'))))
         except:
             try:
                 self.data = json.load(open(data_file))

@@ -3,8 +3,8 @@
 ## Table of Contents
 
 - [Files](#Files)
-- [Build Package](#buildpackage)
-- [Use Package](#usepackage)
+- [Build Python Package](#buildpackage)
+- [How to Use Package](#usepackage)
 
 ## Files
 
@@ -20,14 +20,14 @@
 * config.yaml
 * requirements.txt
 
-## Build Package
+## Build Python Package
 
 ### Build Enviroment
 ```bash
 pip3 install --upgrade pip
 pip3 install -U pip virtualenv
 python -m venv env
-env\Scripts\activate
+env\Scripts\activate # On Windows, use this to activate the virtual environment
 pip install -r requirements.txt
 ```
 
@@ -43,7 +43,7 @@ python setup.py sdist bdist_wheel
 pip install -U zero-shot-prediction --find-links {local_package_destination}
 ```
 
-### How to use package
+### How to Use Package
 ```python 
 from zero_shot_prediction import analyze
 analyze.run_analysis(data_file = "file_path", model_name = "sentiment_model")
@@ -52,8 +52,8 @@ analyze.run_analysis(data_file = "file_path", model_name = "sentiment_model")
 
 | Parameter      | Description                                 | Default Value           | Options                              |
 | -------------- | ------------------------------------------- | ----------------------- | ------------------------------------ |
-| `data_file`    | Your API key for authentication.            | an example data to run  | default file, external file          |
-| `model_name`   | Timeout in seconds for API requests.        | `sentiment_model`       | `sentiment_model`, `sentiment_model` |
+| data_file      | Your API key for authentication.            | an example data to run  | default file, external file          |
+| model_name     | Timeout in seconds for API requests.        | "sentiment_model"       | "sentiment_model", "intent_model"    |
 
 
 **External file data format:**
@@ -64,7 +64,7 @@ analyze.run_analysis(data_file = "file_path", model_name = "sentiment_model")
         "role": "...",
         "message": "..."
     },
- "..."
+ // More conversation objects
  ]
 ```           
 
