@@ -1,12 +1,14 @@
+
 # Zero Shot Sentiment and Intent Prediction with pretrained Huggingface LLM model(s)
 
 ## Table of Contents
 
 - [Files](#Files)
-- [Build Python Package](#buildpackage)
-- [Usage of local package](#usepackage)
+- [Build Python Package](#BuildPythonPackage)
+- [Usage of the Local Package](#UsageoftheLocalPackage)
 
 ## Files
+<a name="Files"></a>
 
 * data: contains example of simulated conversation
 * recources: contains Huggingface pretrained model(s)
@@ -20,6 +22,7 @@
 * requirements.txt
 
 ## Build Python Package
+<a name="BuildPythonPackage"></a>
 
 ### Build Enviroment
 ```bash
@@ -35,7 +38,8 @@ pip install -r requirements.txt
 python setup.py sdist bdist_wheel
 ```
 
-## Usage of local package
+## Usage of the Local Package
+<a name="UsageoftheLocalPackage"></a>
 
 ### Load package from the local
 ```bash
